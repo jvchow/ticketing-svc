@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package train;
+
+// The Go package where the code will be generated.
+option go_package = "ticketing-svc/train";
+
+// The ticket service definition.
+service TicketService {
+  rpc PurchaseTicket (PurchaseRequest) returns (Receipt);
+  rpc GetReceipt (UserRequest) returns (Receipt);
+  rpc ViewSeats (SectionRequest) returns (SeatResponse);
+  rpc RemoveUser (UserRequest) returns (StatusResponse);
+  rpc ModifySeat (ModifySeatRequest) returns (StatusResponse);
+}
+
+// The request message containing the user details.
+message PurchaseRequest {
+  string from = 1;
+  string to = 2;
+  User user = 3;
+  double price_paid = 4;
+}
+
+// The response message containing the receipt details.
+message Receipt {
+  string from = 1;
+  string to = 2;
+  User user = 3;
+  double price_paid = 4;
+  string seat = 5;
+}
+
+// The user information.
+message User {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+}
+
+// The request message for user receipt.
+message UserRequest {
+  string email = 1;
+}
+
+// The request message for viewing seats.
+message SectionRequest {
+  string section = 1;
+}
+
+// The response message for viewing seats.
+message SeatResponse {
+  repeated User users = 1;
+}
+
+// The response message for status.
+message StatusResponse {
+  string message = 1;
+}
+
+// The request message for modifying the seat.
+message ModifySeatRequest {
+  string email = 1;
+  string new_seat = 2;
+}
